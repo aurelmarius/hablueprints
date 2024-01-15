@@ -189,6 +189,8 @@ blueprint:
               value: snapshot.jpg?crop=1
             - label: Snapshot cropped with bounding box
               value: snapshot.jpg?bbox=1&crop=1
+            - label: Clip
+              value: clip.mp4
           mode: dropdown
     update_thumbnail:
       name: Update Image (Optional)
