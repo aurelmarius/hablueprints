@@ -1,5 +1,5 @@
 blueprint:
-  name: Awtrix-Light notification
+  name: Awtrix-Light notification V2.0
   description: Write some text on Awtrix-light device
   domain: automation
   input:
@@ -71,7 +71,7 @@ blueprint:
     sound:
       name: RTTTL beep
       description: Since the buzzer sucks, don't try anything fancy! Leaving this empty disables the beep
-      default: "beep:d=4,o=5,b=45:32p,32f#"
+      default: ""
 alias: Write Message on Awtrix-Light
 description: ""
 trigger: []
