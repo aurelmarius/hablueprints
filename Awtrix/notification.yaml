@@ -1,5 +1,5 @@
 blueprint:
-  name: Awtrix-light notification
+  name: Awtrix-Light notification
   description: Write some text on Awtrix-light device
   domain: automation
   input:
@@ -8,11 +8,10 @@ blueprint:
       description: The device to be controlled
       selector:
         device:
-          multiple: false
-          filter:
-            - integration: mqtt
-              manufacturer: Blueforcer
-              model: "AWTRIX Light"
+          integration: mqtt
+          model: "AWTRIX Light"
+          manufacturer: Blueforcer
+          multiple: true
     icon:
       name: Icon number you want to use on device
       default: "1"
@@ -78,9 +77,18 @@ description: ""
 trigger: []
 condition: []
 variables:
-  device_id: !input awtrix_entity
-  my_display: |
-    {{ iif( device_attr(device_id, 'name_by_user') != none, device_attr(device_id, 'name_by_user'), device_attr(device_id, 'name') ) }}
+  device_ids: !input awtrix_entity
+  devices: >-
+    {% macro get_device(device_id) %}
+      {{ states((device_entities(device_id) | select('search','device_topic') | list)[0] | default('unknown')) }}
+    {% endmacro %}
+
+    {% set ns = namespace(devices=[]) %}
+    {% for device_id in device_ids %}
+      {% set device=get_device(device_id)|replace(' ','')|replace('\n','') %}
+      {% set ns.devices = ns.devices + [ device ] %}
+    {% endfor %}
+    {{ ns.devices | reject('match','unavailable|unknown') | list }}
   msg_icon: !input icon
   msg_text: !input text
   push_icon: !input push_icon
@@ -91,22 +99,26 @@ variables:
   my_toggle_helper: toggle_helper
   my_duration: !input duration
   sound: !input sound
+
 action:
-  - service: mqtt.publish
-    data:
-      qos: 0
-      retain: false
-      topic: "{{ my_display }}/notify"
-      payload: |-
-        {
-          "text": "{{ msg_text }}",
-          "color": {{text_color}},
-          "background": {{ background_color }},
-          "icon": "{{ msg_icon }}",
-          "textCase": "{{ text_case }}",
-          "pushIcon": "{{ push_icon }}",
-          "rainbow": {{ show_rainbow | lower }},
-          "rtttl": "{{ sound }}",
-          "duration": {{ my_duration }}
-        }
+  - repeat:
+      for_each: "{{ devices }}"
+      sequence:
+        - service: mqtt.publish
+          data:
+            qos: 0
+            retain: false
+            topic: "{{repeat.item}}/notify"
+            payload: |-
+              {
+                "text": "{{ msg_text }}",
+                "color": {{text_color}},
+                "background": {{ background_color }},
+                "icon": "{{ msg_icon }}",
+                "textCase": "{{ text_case }}",
+                "pushIcon": "{{ push_icon }}",
+                "rainbow": {{ show_rainbow | lower }},
+                "rtttl": "{{ sound }}",
+                "duration": {{ my_duration }}
+              }
 mode: single
