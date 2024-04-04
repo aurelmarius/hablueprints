@@ -108,6 +108,10 @@ action:
             sequence:
             - service: media_player.media_play_pause
               entity_id: !input 'media_player'
+          - conditions: "{{ trigger.payload == 'toggle' }}"
+            sequence:
+            - service: media_player.media_play_pause
+              entity_id: !input 'media_player'
           # Next Track
           - conditions: "{{ trigger.payload == 'track_next' }}"
             sequence:
