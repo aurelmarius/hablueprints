@@ -19,6 +19,7 @@ blueprint:
       selector:
         device:
           integration: mqtt
+          manufacturer: IKEA
           multiple: false
     base_topic:
       name: Zigbee2MQTT Base mqtt topic
