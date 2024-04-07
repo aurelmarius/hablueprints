@@ -104,11 +104,7 @@ action:
           ## Commands
 
           # Play / Pause
-          - conditions: "{{ trigger.payload == 'play_pause' }}"
-            sequence:
-            - service: media_player.media_play_pause
-              entity_id: !input 'media_player'
-          - conditions: "{{ trigger.payload == 'toggle' }}"
+          - conditions: "{{ trigger.payload == 'toggle' or trigger.payload == 'play_pause' }}"
             sequence:
             - service: media_player.media_play_pause
               entity_id: !input 'media_player'
