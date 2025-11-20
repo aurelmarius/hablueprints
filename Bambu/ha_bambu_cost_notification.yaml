@@ -220,8 +220,6 @@ blueprint:
         boolean:
       default: true
 
-source_url: https://coltography.ca/usage-cost-notifications-with-home-assistant-and-bambu-lab-3d-printers/
-
 variables:
   _printer_status_sensor: !input printer_status_sensor
   _printer_cover_image: !input printer_cover_image
