@@ -401,20 +401,17 @@ action:
               {{ None }}
             {% endif %}
           msg_body: >-
-            🎉 3D PRINT COMPLETED
-            ⏱️ Duration: {{ duration_str }}
-            ⚖️ Weight: {{ weight_g | round(1) }} g - Cost: {{ _currency_symbol }}{{ filament_cost }}
-            {% if length_m is not none %}🧵 Filament Length: {{ length_m }} m / {{ length_ft }} ft
-            {% endif %}🔌 Power: {{ total_kwh | round(3) }} kWh - Cost: {{ _currency_symbol }}{{ electrical_cost }}
-            {% if _show_depreciation_line %}🛠️ Depreciation: {{ _currency_symbol }}{{ depreciation_cost }}
-            {% endif %}💰 Total Cost: {{ _currency_symbol }}{{ total_cost }}
+            🎉 PRINT COMPLETED\n
+            ⏱ Duration: {{ duration_str }}\n
+            ⚖️ Weight: {{ weight_g | round(1) }} g — Cost: {{ _currency_symbol }}{{ filament_cost }}\n
+            {% if length_m is not none %}🧵 Filament: {{ length_m }} m / {{ length_ft }} ft\n{% endif %}
+            🔌 Power: {{ total_kwh | round(3) }} kWh — Cost: {{ _currency_symbol }}{{ electrical_cost }}\n
+            {% if _show_depreciation_line %}🛠 Depreciation: {{ _currency_symbol }}{{ depreciation_cost }}\n{% endif %}
+            💰 Total Cost: {{ _currency_symbol }}{{ total_cost }}\n
             {% if _cumulative_total_cost is not none %}
-            {% if _show_all_time_usage_line %}🕒 All Time Usage: {{ total_usage_hrs | round(1) }} h
-            {% endif %}
-            {% if _show_all_time_cost_line %}📊 All Time Cost: {{ _currency_symbol }}{{ '%0.2f'|format(cumulative_cost) }}
-            {% endif %}
-            {% if _show_all_time_filament_line %}🧵 All Time Filament: {{ total_filament_g | round(0) }} g / {{ total_filament_lbs }} lbs
-            {% endif %}
+            {% if _show_all_time_usage_line %}🕒 All Time Usage: {{ total_usage_hrs | round(1) }} h\n{% endif %}
+            {% if _show_all_time_cost_line %}📊 All Time Cost: {{ _currency_symbol }}{{ '%0.2f'|format(cumulative_cost) }}\n{% endif %}
+            {% if _show_all_time_filament_line %}🧵 All Time Filament: {{ total_filament_g | round(0) }} g / {{ total_filament_lbs }} lbs\n{% endif %}
             {% endif %}
 
       - variables:
