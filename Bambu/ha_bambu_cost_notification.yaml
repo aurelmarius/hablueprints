@@ -396,7 +396,7 @@ action:
           total_filament_lbs: "{{ (total_filament_g / 453.5924) | round(2) }}"
           cover_image_url: >-
             {% if _printer_cover_image is not none %}
-              {{ state_attr(_printer_cover_image, 'cover_image') or state_attr(_printer_cover_image, 'entity_picture') }}
+              {{ '/api/image_proxy/' ~ _printer_cover_image }}
             {% else %}
               {{ None }}
             {% endif %}
